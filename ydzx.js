@@ -5,6 +5,7 @@ const program = require('commander')
 const service = require('./lib/service')
 const register = require('./lib/register')
 const comment = require('./lib/comment')
+const like = require('./lib/like')
 
 async function run(func, ...args) {
   await service.init()
@@ -30,5 +31,10 @@ program
   .description('评论文章')
   .alias('c')
   .action(n => run(comment))
+
+program
+  .command('like')
+  .description('点赞')
+  .action(n => run(like))
 
 program.parse(process.argv)
