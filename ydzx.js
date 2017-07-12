@@ -7,25 +7,41 @@ const register = require('./lib/register')
 const comment = require('./lib/comment')
 const like = require('./lib/like')
 
-program
-  .version('1.0.0')
-  .description('一点资讯营销工具')
-  .option('-r --register <n>', '注册', parseInt)
-  .option('-c --comment', '评论')
-  .option('-l --like', '点赞')
-  .parse(process.argv)
-
-if (!program.register && !program.comment && !program.like) {
-  program.help()
-}
-
-(async function() {
+async function run(command, ...args) {
   await service.init()
   console.log('\n### 棱镜核心已启动 ###\n\n')
 
-  if (program.register) { await register(program.register) }
-  if (program.comment) { await comment() }
-  if (program.like) { await like() }
+  await command(...args)
 
   await service.shutdown()
-})()
+}
+
+program
+  .version('1.0.0')
+  .description('一点资讯营销工具')
+
+program
+  .command('register [n]')
+  .description('注册')
+  .alias('r')
+  .action(n => run(register, parseInt(n) || 10))
+
+program
+  .command('comment [range]')
+  .alias('c')
+  .description('评论')
+  .action(range => {
+    const r = range ? range.split('-') : []
+    const start = parseInt(r[0]) || 0
+    const end = parseInt(r[1]) || 10
+
+    run(comment, start, end)
+  })
+
+program
+  .command('like')
+  .alias('l')
+  .description('点赞')
+  .action(() => run(like))
+
+program.parse(process.argv)
