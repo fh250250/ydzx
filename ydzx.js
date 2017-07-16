@@ -2,19 +2,11 @@
 'use strict'
 
 const program = require('commander')
-const service = require('./lib/service')
+const utils = require('./lib/utils')
 const register = require('./lib/register')
 const comment = require('./lib/comment')
 const like = require('./lib/like')
-
-async function run(command, ...args) {
-  await service.init()
-  console.log('\n### 棱镜核心已启动 ###\n\n')
-
-  await command(...args)
-
-  await service.shutdown()
-}
+const fetch_proxy = require('./lib/ip_crawler')
 
 program
   .version('1.0.0')
@@ -24,7 +16,11 @@ program
   .command('register [n]')
   .description('注册')
   .alias('r')
-  .action(n => run(register, parseInt(n) || 10))
+  .action(n => {
+    utils.run(async () => {
+      await register(parseInt(n) || 10)
+    })
+  })
 
 program
   .command('comment [range]')
@@ -35,13 +31,29 @@ program
     const start = parseInt(r[0]) || 0
     const end = parseInt(r[1]) || 10
 
-    run(comment, start, end)
+    utils.run(async () => {
+      await comment(start, end)
+    })
   })
 
 program
   .command('like')
   .alias('l')
   .description('点赞')
-  .action(() => run(like))
+  .action(() => {
+    utils.run(async () => {
+      await like()
+    })
+  })
+
+program
+  .command('proxy')
+  .alias('p')
+  .description('抓取代理')
+  .action(() => {
+    utils.run(async () => {
+      await fetch_proxy()
+    })
+  })
 
 program.parse(process.argv)

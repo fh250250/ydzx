@@ -9,6 +9,7 @@
   "license": "ISC",
   "dependencies": {
     "axios": "^0.16.2",
+    "cheerio": "^1.0.0-rc.2",
     "commander": "^2.11.0",
     "faker": "^4.1.0",
     "lodash": "^4.17.4",
