@@ -16,11 +16,11 @@ function need_register_user() {
 function need_fetch_proxy() {
   const coll = service.db.collection('ip')
 
-  return coll.count().then(count => count < 50)
+  return coll.count().then(count => count < 100)
 }
 
 utils.run(async () => {
-  if (await need_register_user()) { await register(10) }
+  // if (await need_register_user()) { await register(10) }
 
   await comment(0, 20)
 
