@@ -12,6 +12,8 @@ module.exports = {
     { id: 't1121', name: '街拍' },
     { id: 's10671', name: '搞笑' },
     { id: 'u11392', name: '趣图' },
+    { id: 'u241', name: '美女' },
+    { id: 's11933', name: '内涵段子' },
     // { id: 'u12400', name: '内涵图' },
     // { id: 'u659', name: '摄影' },
     // { id: 'u676', name: '女人' },
