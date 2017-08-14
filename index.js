@@ -20,7 +20,7 @@ function need_fetch_proxy() {
 }
 
 utils.run(async () => {
-  if (await need_register_user()) { await register(10) }
+  // if (await need_register_user()) { await register(10) }
 
   await comment(0, 20)
 
